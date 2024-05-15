@@ -11,6 +11,7 @@ AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { deleteReminder} from "@/redux/slice/reminderSlice.jsx"
 import { useDispatch } from "react-redux"
+import { FaTrash } from "react-icons/fa";
 
 export function DeleteButton({reminderId}) {
 const dispatch = useDispatch();
@@ -22,7 +23,10 @@ return (
 <>
     <AlertDialog>
         <AlertDialogTrigger asChild>
-            <span>Delete</span>
+        <span className="flex items-center space-x-2 cursor-pointer ">
+          <FaTrash />
+          <span>Delete</span>
+        </span>
         </AlertDialogTrigger>
         <AlertDialogContent>
             <AlertDialogHeader>

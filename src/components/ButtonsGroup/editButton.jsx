@@ -17,8 +17,7 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState } from "react"
-
-
+import { FaEdit } from "react-icons/fa";
 
 export function EditButton({reminder}) {
     const [date, setDate] = useState(new Date(reminder.dueDate));
@@ -46,7 +45,10 @@ return (
 <>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-            <span onClick={() => setIsDialogOpen(true)}>Edit</span>
+            <span onClick={() => setIsDialogOpen(true)} className="flex items-center space-x-2 cursor-pointer ">
+            <FaEdit/>
+            <span>Edit</span>
+          </span>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
