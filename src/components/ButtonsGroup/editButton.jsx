@@ -95,7 +95,7 @@ return (
                     </SelectTrigger>
                     <SelectContent position="popper">
                       <SelectItem value="low">low</SelectItem>
-                      <SelectItem value="medium">medium</SelectItem>
+                      <SelectItem value="med">medium</SelectItem>
                       <SelectItem value="high">high</SelectItem>
                     </SelectContent>
                   </Select>

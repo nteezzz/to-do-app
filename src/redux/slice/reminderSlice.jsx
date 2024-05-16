@@ -34,7 +34,7 @@ const reminderSlice = createSlice({
           completedReminder.completionStatus= !completedReminder.completionStatus;
         }
     },
-  },
+     },
 });
 
 export const { addReminder, editReminder, deleteReminder, completeReminder } = reminderSlice.actions;

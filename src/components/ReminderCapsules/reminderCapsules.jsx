@@ -4,15 +4,13 @@ import {
 Card,
 CardContent,
 } from "@/components/ui/card"
-import { useSelector, useDispatch } from "react-redux"
+import {  useDispatch } from "react-redux"
 import {completeReminder } from "@/redux/slice/reminderSlice"
-import { ButtonGroup } from "../ButtonsGroup/buttonGroup"
 import { EditButton } from "../ButtonsGroup/editButton"
 import { DeleteButton } from "../ButtonsGroup/deleteButton"
 
 
-export const ReminderCapsules=()=>{
-const reminders =useSelector(state=>state.reminders.reminders);
+export const ReminderCapsules=({reminders})=>{
 const dispatch= useDispatch();
 const getDueStatus = (dueDateString) => {
   const today = new Date();
@@ -31,7 +29,7 @@ return (
           <div className="flex flew-col space-1.5">
           <input
             type="checkbox"
-            checked={reminder.completedStatus}
+            checked={reminder.completionStatus}
             onChange={() => dispatch(completeReminder(reminder.id))}
           />
           </div>
