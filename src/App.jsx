@@ -5,12 +5,14 @@ import { CompletedTasks } from './pages/CompletedTasks/completedTasks'
 
 import './App.css'
 import { TodaysTasks } from './pages/TodaysTasks/todaysTasks'
+import { AuthComponent } from './components/Auth/authComponent'
 
 function App() {
 
 
 return (
 <>
+  <AuthComponent/>
   <Tabs defaultValue="all" className="w-full">
     <TabsList>
       <TabsTrigger value="today">Today's Tasks</TabsTrigger>
