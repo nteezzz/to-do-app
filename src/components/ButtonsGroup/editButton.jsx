@@ -8,7 +8,7 @@ DialogTitle,
 DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { editReminder,deleteReminder} from "@/redux/slice/reminderSlice.jsx"
+import { editReminder, editReminderAsync} from "@/redux/slice/reminderSlice.jsx"
 import { useDispatch } from "react-redux"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { addDays, format } from "date-fns";
@@ -18,6 +18,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useState } from "react"
 import { FaEdit } from "react-icons/fa";
+import { auth } from "@/config/firebase-config"
 
 export function EditButton({reminder}) {
     const [date, setDate] = useState(new Date(reminder.dueDate));
@@ -30,15 +31,28 @@ export function EditButton({reminder}) {
         const formData = new FormData(event.target);
         const title = formData.get("title");
         const description = formData.get("description");
-        const updatedReminder = {
-          id,
-          title,
-          description,
-          dueDate: date.toISOString(),
-          priority: priorityy,
-        };
-        dispatch(editReminder(updatedReminder));
-        setIsDialogOpen(false);
+        if(auth.currentUser==null){
+          const updatedReminder = {
+            id,
+            title,
+            description,
+            dueDate: date.toISOString(),
+            priority: priorityy,
+          };
+          dispatch(editReminder(updatedReminder));
+          setIsDialogOpen(false);
+        }
+        else{
+          const updatedReminder = {
+            title,
+            description,
+            dueDate: date.toISOString(),
+            priority: priorityy,
+          };
+          dispatch(editReminderAsync(id,updatedReminder));
+          setIsDialogOpen(false);
+        }
+        
       };
 
 return (

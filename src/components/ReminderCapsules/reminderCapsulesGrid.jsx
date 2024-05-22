@@ -1,13 +1,12 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { completeReminder } from "@/redux/slice/reminderSlice";
+import { completeReminder, completeReminderAsync } from "@/redux/slice/reminderSlice";
 import { EditButton } from "../ButtonsGroup/editButton";
 import { DeleteButton } from "../ButtonsGroup/deleteButton";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const ReminderCapsulesGrid = ({ reminders }) => {
   const dispatch = useDispatch();
-
   const getDueStatus = (dueDateString) => {
     const today = new Date();
     const dueDate = new Date(dueDateString);
@@ -15,6 +14,14 @@ export const ReminderCapsulesGrid = ({ reminders }) => {
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return daysDiff === 0 ? "Due today" : `Due in ${daysDiff} days`;
   };
+  const handleCheckbox=(reminderId,reminder)=>{
+    if(auth.currentUser==null){
+      dispatch(completeReminder(reminderId))
+      }
+    else{
+      dispatch(completeReminderAsync(reminderId, reminder))
+    }
+  }
 
   return (
     <div className="container w-4/5 mx-auto p-4">
@@ -27,7 +34,7 @@ export const ReminderCapsulesGrid = ({ reminders }) => {
                   <input
                     type="checkbox"
                     checked={reminder.completionStatus}
-                    onChange={() => dispatch(completeReminder(reminder.id))}
+                    onChange={()=>handleCheckbox(reminder.id, reminder)}
                   />
                   <h3 className="text-lg font-semibold">{reminder.title}</h3>
                 </div>

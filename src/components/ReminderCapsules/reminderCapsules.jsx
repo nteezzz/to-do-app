@@ -1,10 +1,11 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { completeReminder } from "@/redux/slice/reminderSlice";
+import { completeReminder, completeReminderAsync } from "@/redux/slice/reminderSlice";
 import { EditButton } from "../ButtonsGroup/editButton";
 import { DeleteButton } from "../ButtonsGroup/deleteButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { auth } from "@/config/firebase-config";
 
 export const ReminderCapsules = ({ reminders }) => {
   const dispatch = useDispatch();
@@ -16,12 +17,20 @@ export const ReminderCapsules = ({ reminders }) => {
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return daysDiff === 0 ? "Due today" : `Due in ${daysDiff} days`;
   };
+  const handleCheckbox=(reminderId,reminder)=>{
+    if(auth.currentUser==null){
+      dispatch(completeReminder(reminderId))
+      }
+    else{
+      dispatch(completeReminderAsync(reminderId,reminder))
+    }
+  }
 
   return (
     <div className="container mx-auto">
       {reminders.map((reminder) => (
         <div key={reminder.id} className="w-4/5 mx-auto my-4">
-          <Card className="w-full p-4">
+          <Card className="w-full p-0">
             <CardContent>
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-wrap justify-between items-center">
@@ -29,7 +38,7 @@ export const ReminderCapsules = ({ reminders }) => {
                     <input
                       type="checkbox"
                       checked={reminder.completionStatus}
-                      onChange={() => dispatch(completeReminder(reminder.id))}
+                      onChange={()=>handleCheckbox(reminder.id,reminder)}
                     />
                     <h4 className="w-10">{reminder.priority}</h4>
                     <h4 className="w-40">{reminder.title}</h4>

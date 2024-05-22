@@ -9,14 +9,22 @@ AlertDialogHeader,
 AlertDialogTitle,
 AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { deleteReminder} from "@/redux/slice/reminderSlice.jsx"
+import { deleteReminder, deleteReminderAsync} from "@/redux/slice/reminderSlice.jsx"
 import { useDispatch } from "react-redux"
 import { FaTrash } from "react-icons/fa";
+import { auth } from "@/config/firebase-config";
 
 export function DeleteButton({reminderId}) {
+ 
 const dispatch = useDispatch();
 const handleDelete = () =>{
-dispatch(deleteReminder(reminderId))
+    if(auth.currentUser==null){
+        dispatch(deleteReminder(reminderId))
+    }
+    else{
+        dispatch(deleteReminderAsync(reminderId))
+    }   
+
 }
 
 return (

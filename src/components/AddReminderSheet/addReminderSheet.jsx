@@ -10,6 +10,8 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { auth } from "@/config/firebase-config";
+import { addReminderAsync } from "@/redux/slice/reminderSlice";
 import {
   Sheet,
   SheetClose,
@@ -33,16 +35,32 @@ export const AddReminderSheet=()=> {
     const description = formData.get("description");
     const dueDate = date.toISOString();
     const priority= priorityy;
-    const newReminder = {
-      id: Date.now(),
-      title,
-      description,
-      dueDate,
-      completionStatus: false,
-      priority,
-    };
-    dispatch(addReminder(newReminder));
-    event.target.reset();
+    
+    if(auth.currentUser==null)
+      {
+        const newReminder = {
+          id: Date.now(),
+          title,
+          description,
+          dueDate,
+          completionStatus: false,
+          priority,
+        };
+        dispatch(addReminder(newReminder));
+        event.target.reset();
+      }
+    else{
+      const newReminder = {
+        title,
+        description,
+        dueDate,
+        completionStatus: false,
+        priority,
+      };
+      dispatch(addReminderAsync(newReminder));
+      event.target.reset();
+    }
+
   };
 
   return (

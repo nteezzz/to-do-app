@@ -14,9 +14,11 @@ SheetTrigger,
 } from "@/components/ui/sheet"
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { auth } from '../../config/firebase-config';
+import { auth, db } from '../../config/firebase-config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { login, logout } from '@/redux/slice/authSlice';
+import { doc, setDoc } from 'firebase/firestore';
+import { clearReminders } from '@/redux/slice/reminderSlice';
 
 
 export const AuthComponent = () => {
@@ -25,27 +27,29 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const dispatch = useDispatch();
 const loggedIn=useSelector(state=>state.auth.loggedIn);
-const user=useSelector(state=>state.auth.user)
+
 
 
 const handleLogin = async (e) => {
 e.preventDefault();
 try {
-const userCredentials= await signInWithEmailAndPassword(auth, email, password);
-dispatch(login(userCredentials.user));
-console.log(userCredentials.user.email)
-
+await signInWithEmailAndPassword(auth, email, password);
+dispatch(login());
 } catch (error) {
-console.log(error);
+alert(error);
 }
 };
 
 const handleRegister = async (e) => {
 e.preventDefault();
 try {
-await createUserWithEmailAndPassword(auth, email, password);
+const {user}=await createUserWithEmailAndPassword(auth, email, password);
+const userData = {email, password};
+await setDoc(doc(db,"users", user.uid), userData);
+dispatch(login());
+alert("user registered")
 } catch (error) {
-console.log(error);
+alert(error);
 }
 };
 
@@ -53,7 +57,7 @@ const handleLogout = async ()=>{
 try {
 await signOut(auth);
 dispatch(logout());
-
+dispatch(clearReminders());
 } catch (error) {
 console.log(error);
 }
@@ -61,7 +65,7 @@ console.log(error);
 };
 
 const handleGuest = () => {
-
+    alert("Dear guest user, all your data will be lost once the browser is closed/refreshed")
 };
 
 return (
@@ -69,7 +73,7 @@ return (
 <>
 <div className='flex justify-end'>
     
-{loggedIn?(<div>{user.email}
+{loggedIn?(<div>{auth?.currentUser.email}
     <Button className="m-[5px]"onClick={handleLogout}>Logout</Button></div>):(<Sheet>
         <SheetTrigger><Button>Login</Button></SheetTrigger>
         <SheetContent side="top">
