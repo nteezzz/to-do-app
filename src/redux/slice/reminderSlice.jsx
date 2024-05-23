@@ -53,7 +53,7 @@ export const completeReminderAsync = (reminderId, updatedReminderData) => async 
       const userId = auth.currentUser.uid;
       updatedReminderData = { ...updatedReminderData, completionStatus: !updatedReminderData.completionStatus };
       await editUserReminder(userId, reminderId, updatedReminderData);
-      dispatch(editReminder({ id: reminderId, ...updatedReminderData }));
+      dispatch(completeReminder(reminderId));
       
   } catch (error) {
       dispatch(reminderError(error.message));

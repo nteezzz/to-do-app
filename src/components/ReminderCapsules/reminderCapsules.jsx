@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { completeReminder, completeReminderAsync } from "@/redux/slice/reminderSlice";
-import { EditButton } from "../ButtonsGroup/editButton";
-import { DeleteButton } from "../ButtonsGroup/deleteButton";
+import { EditButton } from "../Buttons/editButton";
+import { DeleteButton } from "../Buttons/deleteButton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/config/firebase-config";
@@ -18,11 +18,11 @@ export const ReminderCapsules = ({ reminders }) => {
     return daysDiff === 0 ? "Due today" : `Due in ${daysDiff} days`;
   };
   const handleCheckbox=(reminderId,reminder)=>{
-    if(auth.currentUser==null){
-      dispatch(completeReminder(reminderId))
+    if(auth?.currentUser?.email){
+      dispatch(completeReminderAsync(reminderId,reminder))
       }
     else{
-      dispatch(completeReminderAsync(reminderId,reminder))
+      dispatch(completeReminder(reminderId)) 
     }
   }
 

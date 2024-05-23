@@ -18,7 +18,7 @@ import { auth, db } from '../../config/firebase-config';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { login, logout } from '@/redux/slice/authSlice';
 import { doc, setDoc } from 'firebase/firestore';
-import { clearReminders } from '@/redux/slice/reminderSlice';
+import { clearReminders, fetchRemindersAsync } from '@/redux/slice/reminderSlice';
 
 
 export const AuthComponent = () => {
@@ -27,14 +27,12 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const dispatch = useDispatch();
 const loggedIn=useSelector(state=>state.auth.loggedIn);
-
-
-
 const handleLogin = async (e) => {
 e.preventDefault();
 try {
 await signInWithEmailAndPassword(auth, email, password);
 dispatch(login());
+dispatch(fetchRemindersAsync())
 } catch (error) {
 alert(error);
 }
@@ -47,6 +45,7 @@ const {user}=await createUserWithEmailAndPassword(auth, email, password);
 const userData = {email, password};
 await setDoc(doc(db,"users", user.uid), userData);
 dispatch(login());
+dispatch(fetchRemindersAsync())
 alert("user registered")
 } catch (error) {
 alert(error);

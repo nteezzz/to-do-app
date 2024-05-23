@@ -1,9 +1,11 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { completeReminder, completeReminderAsync } from "@/redux/slice/reminderSlice";
-import { EditButton } from "../ButtonsGroup/editButton";
-import { DeleteButton } from "../ButtonsGroup/deleteButton";
+import { EditButton } from "../Buttons/editButton";
+import { DeleteButton } from "../Buttons/deleteButton";
 import { Card, CardContent } from "@/components/ui/card";
+import { auth } from "@/config/firebase-config";
+
 
 export const ReminderCapsulesGrid = ({ reminders }) => {
   const dispatch = useDispatch();
@@ -15,11 +17,11 @@ export const ReminderCapsulesGrid = ({ reminders }) => {
     return daysDiff === 0 ? "Due today" : `Due in ${daysDiff} days`;
   };
   const handleCheckbox=(reminderId,reminder)=>{
-    if(auth.currentUser==null){
-      dispatch(completeReminder(reminderId))
+    if(auth?.currentUser?.email){
+      dispatch(completeReminderAsync(reminderId,reminder))
       }
     else{
-      dispatch(completeReminderAsync(reminderId, reminder))
+      dispatch(completeReminder(reminderId)) 
     }
   }
 
@@ -34,7 +36,7 @@ export const ReminderCapsulesGrid = ({ reminders }) => {
                   <input
                     type="checkbox"
                     checked={reminder.completionStatus}
-                    onChange={()=>handleCheckbox(reminder.id, reminder)}
+                    onChange={()=>handleCheckbox(reminder.id,reminder)}
                   />
                   <h3 className="text-lg font-semibold">{reminder.title}</h3>
                 </div>
