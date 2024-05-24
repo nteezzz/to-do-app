@@ -33,7 +33,7 @@ return (
         <AlertDialogTrigger asChild>
         <span className="flex items-center space-x-2 cursor-pointer ">
           <FaTrash />
-          <span>Delete</span>
+          <span className="hidden lg:block" >Delete</span>
         </span>
         </AlertDialogTrigger>
         <AlertDialogContent>

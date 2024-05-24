@@ -12,6 +12,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { auth } from "@/config/firebase-config";
 import { addReminderAsync } from "@/redux/slice/reminderSlice";
+import { FaGooglePlusSquare, FaPlus } from "react-icons/fa";
 import {
   Sheet,
   SheetClose,
@@ -66,7 +67,7 @@ export const AddReminderSheet=()=> {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline"> <PlusCircle className="w-5 h-5 mr-1" /> New Reminder</Button>
+        <Button variant="outline"> <FaPlus className="mx-[6px]"size={14}/> New Reminder</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

@@ -61,7 +61,7 @@ return (
             <DialogTrigger asChild>
             <span onClick={() => setIsDialogOpen(true)} className="flex items-center space-x-2 cursor-pointer ">
             <FaEdit/>
-            <span>Edit</span>
+            <span className="hidden lg:block" >Edit</span>
           </span>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">

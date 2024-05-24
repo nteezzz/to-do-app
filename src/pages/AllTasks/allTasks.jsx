@@ -14,11 +14,27 @@ export const AllTasks=()=>{
 const reminders =useSelector(state=>state.reminders.reminders);
 const [pendingReminders, setPendingReminders]=useState([]);
 const [isGridView, setIsGridView] = useState(false);
-
+const [isMobileView, setIsMobileView] = useState(false);
 
 useEffect(() => {
 setPendingReminders(getPendingReminders(reminders));;
 }, [reminders]);
+useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 591) {
+        setIsGridView(true);
+        setIsMobileView(true);
+      } else {
+        setIsGridView(false);
+        setIsMobileView(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
 return(
 <>
@@ -29,7 +45,8 @@ return(
         <div className="flex flex-col">
             <div className="flex ">
                 <SortButton reminders={pendingReminders} setReminders={setPendingReminders} />
-                <Togglebutton isGridView={isGridView} setIsGridView={setIsGridView}/>                
+                {!isMobileView && (
+                    <Togglebutton isGridView={isGridView} setIsGridView={setIsGridView}/> )}             
             </div>
         </div>
 

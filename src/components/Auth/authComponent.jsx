@@ -70,57 +70,66 @@ const handleGuest = () => {
 return (
 
 <>
-<div className='flex justify-end'>
+<header className="mb-[10px] shadow-md">
+      <div className="container m-[3px] flex justify-between items-center ">
+        <div className="text-xl font-bold">
+          To-do app
+        </div>
+        <div className='flex justify-end'>
     
-{loggedIn?(<div>{auth?.currentUser.email}
-    <Button className="m-[5px]"onClick={handleLogout}>Logout</Button></div>):(<Sheet>
-        <SheetTrigger><Button>Login</Button></SheetTrigger>
-        <SheetContent side="top">
-            <SheetHeader>
-                <SheetTitle>
-                    <center>
-                        <h1>{isRegistering ? 'Register' : 'Login'}</h1>
-                    </center>
-                </SheetTitle>
-            </SheetHeader>
-            <SheetDescription>
-                <div className='flex justify-center'>
-                    <div className='flex  justify-center'>
-                        <form onSubmit={isRegistering ? handleRegister : handleLogin}>
-                            <div>
-                                <Input className="m-[5px] " type="email" value={email} onChange={(e)=>
-                                setEmail(e.target.value)}
-                                placeholder="Email"
-                                required
-                                />
-                            </div>
-                            <div>
-                                <Input className="m-[5px] " type="password" value={password} onChange={(e)=>
-                                setPassword(e.target.value)}
-                                placeholder="Password"
-                                required
-                                />
-                            </div>
-                            <div className='flex flex-row'>
-                                <Button className="m-[5px] w-1/4" type="submit">{isRegistering ? 'Register' :
-                                    'Login'}</Button>
-                                <Button variant="link" onClick={()=> setIsRegistering(!isRegistering)}>
-                                    {isRegistering ? 'Already have an account? Login' : 'Need an account? Register'}
-                                </Button>
-                            </div>
-                        </form>
+    {loggedIn?(<div>{auth?.currentUser.email}
+        <Button className="m-[5px]"onClick={handleLogout}>Logout</Button></div>):(<Sheet>
+            <SheetTrigger><Button className="m-[5px]" >Login</Button></SheetTrigger>
+            <SheetContent side="top">
+                <SheetHeader>
+                    <SheetTitle>
+                        <center>
+                            <h1>{isRegistering ? 'Register' : 'Login'}</h1>
+                        </center>
+                    </SheetTitle>
+                </SheetHeader>
+                <SheetDescription>
+                    <div className='flex justify-center'>
+                        <div className='flex  justify-center'>
+                            <form onSubmit={isRegistering ? handleRegister : handleLogin}>
+                                <div>
+                                    <Input className="m-[5px] " type="email" value={email} onChange={(e)=>
+                                    setEmail(e.target.value)}
+                                    placeholder="Email"
+                                    required
+                                    />
+                                </div>
+                                <div>
+                                    <Input className="m-[5px] " type="password" value={password} onChange={(e)=>
+                                    setPassword(e.target.value)}
+                                    placeholder="Password"
+                                    required
+                                    />
+                                </div>
+                                <div className='flex flex-row'>
+                                    <Button className="m-[5px] w-1/4" type="submit">{isRegistering ? 'Register' :
+                                        'Login'}</Button>
+                                    <Button variant="link" onClick={()=> setIsRegistering(!isRegistering)}>
+                                        {isRegistering ? 'Already have an account? Login' : 'Need an account? Register'}
+                                    </Button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </SheetDescription>
-            <SheetFooter>
-                <SheetClose asChild>
-                    <Button onClick={handleGuest}>Continue as Guest</Button>
-                </SheetClose>
-            </SheetFooter>
-        </SheetContent>
-    </Sheet>)}
+                </SheetDescription>
+                <SheetFooter>
+                    <SheetClose asChild>
+                        <Button onClick={handleGuest}>Continue as Guest</Button>
+                    </SheetClose>
+                </SheetFooter>
+            </SheetContent>
+        </Sheet>)}
+    
+    </div>
+        
+      </div>
+    </header>
 
-</div>
 
 
     

@@ -17,35 +17,35 @@ export const ReminderCapsules = ({ reminders }) => {
     const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
     return daysDiff === 0 ? "Due today" : `Due in ${daysDiff} days`;
   };
-  const handleCheckbox=(reminderId,reminder)=>{
-    if(auth?.currentUser?.email){
-      dispatch(completeReminderAsync(reminderId,reminder))
-      }
-    else{
-      dispatch(completeReminder(reminderId)) 
+
+  const handleCheckbox = (reminderId, reminder) => {
+    if (auth?.currentUser?.email) {
+      dispatch(completeReminderAsync(reminderId, reminder));
+    } else {
+      dispatch(completeReminder(reminderId));
     }
-  }
+  };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto flex flex-col items-center">
       {reminders.map((reminder) => (
-        <div key={reminder.id} className="w-4/5 mx-auto my-4">
-          <Card className="w-full p-0">
+        <div key={reminder.id} className="w-full max-w-3xl my-[5px] flex justify-center">
+          <Card className="w-full">
             <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-wrap justify-between items-center">
-                  <div className="flex items-center space-x-2">
+              <div className="grid w-full justify-self-center items-center gap-4">
+                <div className="flex  gap-x-10 items-center">
+                  <div className="flex  items-center space-x-2">
                     <input
                       type="checkbox"
                       checked={reminder.completionStatus}
-                      onChange={()=>handleCheckbox(reminder.id,reminder)}
+                      onChange={() => handleCheckbox(reminder.id, reminder)}
                     />
                     <h4 className="w-10">{reminder.priority}</h4>
                     <h4 className="w-40">{reminder.title}</h4>
-                    <p className="w-56">{reminder.description}</p>
+                    <p className="w-40 hidden md:block">{reminder.description}</p>
                     <p className="w-32">{getDueStatus(reminder.dueDate)}</p>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 gap-x-3">
                     <EditButton reminder={reminder} />
                     <DeleteButton reminderId={reminder.id} />
                   </div>
