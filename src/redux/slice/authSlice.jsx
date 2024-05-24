@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-const initialState={loggedIn: false, isGridView: false, isMobileView: false}
+const initialState={loggedIn: false}
 
 export const authSlice= createSlice({
     name: 'auth',
@@ -13,15 +13,10 @@ export const authSlice= createSlice({
         logout:(state)=>{
             state.loggedIn=false;  
         },
-        setIsGridView:(state,action)=>{
-            state.isGridView=action.payload;
-        },
-        setIsMobileView:(state,action)=>{
-            state.isMobileView=action.payload;
-        }
+        
     }
 })
 
-export const {login, logout, setIsGridView, setIsMobileView}=authSlice.actions;
+export const {login, logout}=authSlice.actions;
 
 export default authSlice.reducer;
