@@ -63,7 +63,7 @@ const handleRegister = async (e) => {
 e.preventDefault();
 try {
 const {user}=await createUserWithEmailAndPassword(auth, email, password);
-const userData = {email, password};
+const userData = {email};
 await setDoc(doc(db,"users", user.uid), userData);
 dispatch(login());
 dispatch(fetchRemindersAsync())
