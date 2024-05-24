@@ -8,32 +8,16 @@ import { ReminderCapsulesGrid } from "@/components/ReminderCapsules/reminderCaps
 import { Togglebutton } from "@/components/Buttons/toggleButton";
 
 
-
 export const TodaysTasks=()=>{
     const reminders =useSelector(state=>state.reminders.reminders);
     const pendingReminders= getPendingReminders(reminders);
     const [todaysReminders,setTodaysReminders]=useState([]);
-    const [isGridView, setIsGridView] = useState(false);
-    const [isMobileView, setIsMobileView] = useState(false);
+    const isGridView= useSelector(state=>state.auth.isGridView);
+    const isMobileView= useSelector(state=>state.auth.isMobileView);
     useEffect(() => {
         setTodaysReminders(getTodaysReminders(pendingReminders));
     }, [reminders]); ;
-    useEffect(() => {
-        const handleResize = () => {
-          if (window.innerWidth <= 591) {
-            setIsGridView(true);
-            setIsMobileView(true);
-          } else {
-            setIsGridView(false);
-            setIsMobileView(false);
-          }
-        };
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => {
-          window.removeEventListener("resize", handleResize);
-        };
-      }, []);
+    
 
 return(
 <>
@@ -45,7 +29,7 @@ return(
             <div className="flex ">
                 <SortButton reminders={todaysReminders} setReminders={setTodaysReminders} />
                 {!isMobileView && (
-                <Togglebutton isGridView={isGridView} setIsGridView={setIsGridView}/>)}
+                <Togglebutton />)}
             </div>           
         </div>
         

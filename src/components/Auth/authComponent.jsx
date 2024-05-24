@@ -1,5 +1,5 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -19,6 +19,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { login, logout } from '@/redux/slice/authSlice';
 import { doc, setDoc } from 'firebase/firestore';
 import { clearReminders, fetchRemindersAsync } from '@/redux/slice/reminderSlice';
+import { setGridView, setMobileView } from '@/redux/slice/authSlice';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 
 export const AuthComponent = () => {
@@ -27,6 +29,25 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const dispatch = useDispatch();
 const loggedIn=useSelector(state=>state.auth.loggedIn);
+const isMobileView= useSelector(state=>state.auth.isMobileView)
+
+
+useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 591) {
+        dispatch(setGridView(true));
+        dispatch(setMobileView(true));
+      } else {
+        dispatch(setMobileView(false));
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
 const handleLogin = async (e) => {
 e.preventDefault();
 try {
@@ -77,8 +98,8 @@ return (
         </div>
         <div className='flex justify-end'>
     
-    {loggedIn?(<div>{auth?.currentUser.email}
-        <Button className="m-[5px]"onClick={handleLogout}>Logout</Button></div>):(<Sheet>
+    {loggedIn?(<div>{isMobileView? '':(`${auth?.currentUser.email}`)}
+        <Button className="m-[5px]"onClick={handleLogout}>{isMobileView?<FaSignOutAlt/>:'Logout'}</Button></div>):(<Sheet>
             <SheetTrigger><Button className="m-[5px]" >Login</Button></SheetTrigger>
             <SheetContent side="top">
                 <SheetHeader>

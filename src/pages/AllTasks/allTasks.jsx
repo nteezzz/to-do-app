@@ -1,4 +1,3 @@
-// import { AddReminder } from "@/components/AddReminder/addReminder";
 import { AddReminderSheet } from "@/components/AddReminderSheet/addReminderSheet.jsx";
 import {ReminderCapsules} from "@/components/ReminderCapsules/reminderCapsules";
 import { useSelector } from "react-redux";
@@ -9,32 +8,17 @@ import { ReminderCapsulesGrid } from "@/components/ReminderCapsules/reminderCaps
 import { Togglebutton } from "@/components/Buttons/toggleButton";
 
 
-
 export const AllTasks=()=>{
 const reminders =useSelector(state=>state.reminders.reminders);
 const [pendingReminders, setPendingReminders]=useState([]);
-const [isGridView, setIsGridView] = useState(false);
-const [isMobileView, setIsMobileView] = useState(false);
+const isGridView= useSelector(state=>state.auth.isGridView);
+const isMobileView= useSelector(state=>state.auth.isMobileView);
 
 useEffect(() => {
 setPendingReminders(getPendingReminders(reminders));;
 }, [reminders]);
-useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 591) {
-        setIsGridView(true);
-        setIsMobileView(true);
-      } else {
-        setIsGridView(false);
-        setIsMobileView(false);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+
+
 
 return(
 <>
@@ -46,11 +30,9 @@ return(
             <div className="flex ">
                 <SortButton reminders={pendingReminders} setReminders={setPendingReminders} />
                 {!isMobileView && (
-                    <Togglebutton isGridView={isGridView} setIsGridView={setIsGridView}/> )}             
+                    <Togglebutton/> )}             
             </div>
         </div>
-
-
     </div>
     <div>
         {isGridView?(<div>{pendingReminders.length>0?
